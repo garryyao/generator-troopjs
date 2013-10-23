@@ -1,0 +1,10 @@
+.project
+.settings
+.externalToolBuilders
+.idea
+.DS_Store
+FileMerger.exe
+.orig
+dist
+node_modules
+bower_components
