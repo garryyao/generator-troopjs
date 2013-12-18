@@ -23,26 +23,25 @@ $ npm install -g yo
 
 Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
 
-To install generator-troopjs-ef, run:
+## Usage
 
+Install `generator-angular`:
 ```
-$ git clone [this git repo url]
-$ cd generator-troopjs && npm link
-```
-
-Create a directory for your new app:
-
-```
-$ mkdir troopjs-app && cd $_
+npm install -g generator-angular
 ```
 
-Finally, initiate the generator:
+Make a new directory, and `cd` into it:
+```
+mkdir my-troopjs-app && cd $_
+```
+
+Run the scaffold generator with:
 
 ```
 $ yo troopjs:app
 ```
 
-You can also create a widget using sub generator as below:
+Run the troop widget generator using sub generator:
 
 ```
 $ yo troopjs:widget [widget name]
