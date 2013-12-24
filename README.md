@@ -25,9 +25,9 @@ Yeoman travels light. He didn't pack any generators when he moved in. You can th
 
 ## Usage
 
-Install `generator-angular`:
+Install `generator-troopjs`:
 ```
-npm install -g generator-angular
+npm install -g generator-troopjs
 ```
 
 Make a new directory, and `cd` into it:
