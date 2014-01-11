@@ -1,4 +1,4 @@
-# generator-troopjs-ef [![Build Status](https://secure.travis-ci.org/garryyao/generator-troopjs-ef.png?branch=master)](https://travis-ci.org/garryyao/generator-troopjs-ef)
+# generator-troopjs [![Build Status](https://secure.travis-ci.org/garryyao/generator-troopjs.png?branch=develop)](https://travis-ci.org/garryyao/generator-troopjs)
 
 [TroopJS](https://github.com/troopjs/troopjs) application scaffolding generator for [Yeoman](http://yeoman.io).
 
