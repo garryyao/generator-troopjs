@@ -1,6 +1,6 @@
 {
   "name": "generator-troopjs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Scaffolding TroopJS application",
   "keywords": [
     "yeoman-generator"
