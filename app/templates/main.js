@@ -51,7 +51,7 @@ require.config({
 			location: "bower_components/troopjs-requirejs"
 		},
 		{
-			name: "troopjs-app",
+			name: "<%= APP_NAME_DASHED %>",
 			location: "."
 		}
 	],
