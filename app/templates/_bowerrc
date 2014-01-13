@@ -1,3 +1,3 @@
 {
-	"rjsConfig" : "main.js"
+	"requirejs-config" : "main.js"
 }
