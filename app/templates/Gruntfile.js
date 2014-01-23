@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 
 	function includeSource(patterns) {
 		return grunt.util._.map(grunt.file.expand(patterns), function(file) {
-			return path.join('<%= pkg.name %>', file.replace(/\.js$/, ''));
+			return ['<%= pkg.name %>', file.replace(/\.js$/, '')].join('/');
 		});
 	}
 
