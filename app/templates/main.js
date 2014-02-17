@@ -57,8 +57,6 @@ require.config({
 	],
 	map: {
 		"*": {
-			mv: "troopjs-requirejs/multiversion",
-			template: "troopjs-requirejs/template",
 			logger: "troopjs-core/logger/console"
 		}
 	},

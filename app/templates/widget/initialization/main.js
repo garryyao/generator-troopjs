@@ -3,8 +3,7 @@
  *
  */
 define([
-	"troopjs-browser/component/widget",
-	"template!./main.html"
+	"troopjs-browser/component/widget"
 ], function (Widget, tHtml) {
 	"use strict";
 
@@ -12,7 +11,7 @@ define([
 	return Widget.extend({
 		// Handles the widget starting.
 		'sig/start': function initialize() {
-			return this.html(tHtml);
+			return this.html("Hello TroopJS!");
 		}
 	});
 });
