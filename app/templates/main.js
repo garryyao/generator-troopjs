@@ -21,14 +21,12 @@ require.config({
 			main: "poly.js"
 		},
 		{
-			name: "troopjs",
-			location: "bower_components/troopjs",
-			main: "maxi.js"
+			name: "troopjs-composer",
+			location: "bower_components/troopjs-composer"
 		},
 		{
 			name: "troopjs-core",
-			location: "bower_components/troopjs-core",
-			main: "maxi.js"
+			location: "bower_components/troopjs-core"
 		},
 		{
 			name: "troopjs-browser",
