@@ -71,27 +71,26 @@ require.config({
 		}
 	},
 	callback: function loadDeps() {
-		require(
-			[
-				"jquery",
-				"troopjs-browser/application/widget",
-				"troopjs-data/ajax/service",
-				"troopjs-data/query/service",
-				"troopjs-data/cache/component",
-				"troopjs-data/cache/service",
-				"troopjs-browser/mvc/route/widget",
-			], function Bootstrap(jQuery, Application, AjaxService, QueryService, Cache, GC, Route) {
-				jQuery(function ready($) {
-					var cache = Cache();
-					GC(cache).start();
-					var ajax = AjaxService();
-					var query = QueryService(cache);
+		require([
+			"jquery",
+			"troopjs-browser/application/widget",
+			"troopjs-data/ajax/service",
+			"troopjs-data/query/service",
+			"troopjs-data/cache/component",
+			"troopjs-data/cache/service",
+			"<%= APP_NAME_DASHED %>/widget/controller"
+		], function Bootstrap(jQuery, Application, AjaxService, QueryService, Cache, GC, AppController) {
+			jQuery(function ready($) {
+				var cache = Cache();
+				GC(cache).start();
+				var ajax = AjaxService();
+				var query = QueryService(cache);
 
-					var $WINDOW = $(window);
-					var $HTML = $("html");
+				var $WINDOW = $(window);
+				var $HTML = $("html");
 
-					Application($HTML, "bootstrap", ajax, query, Route($WINDOW, "route")).start();
-				});
+				Application($HTML, "bootstrap", ajax, query, AppController($WINDOW)).start();
 			});
+		});
 	}
 });
