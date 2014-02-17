@@ -1,8 +1,7 @@
 {
-	"name": "package",
+	"name": "<%= APP_NAME_DASHED %>",
 	"version": "0.0.0",
 	"dependencies": {
-		"requirejs": "~2.0.0",
-		"troopjs": "develop"
+		"requirejs": ">=2.0.0"
 	}
 }
