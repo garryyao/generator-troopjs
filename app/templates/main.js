@@ -53,6 +53,9 @@ require.config({
 			location: "."
 		}
 	],
+	deps: [
+		"when/monitor/console"
+	],
 	map: {
 		"*": {
 			logger: "troopjs-core/logger/console"
