@@ -2,6 +2,9 @@
 	"name": "<%= APP_NAME_DASHED %>",
 	"version": "0.0.0",
 	"dependencies": {
-		"requirejs": ">=2.0.0"
+		"requirejs": "~2",
+		"troopjs-core": "*",
+		"troopjs-browser": "*",
+		"troopjs-jquery": "*"
 	}
 }
