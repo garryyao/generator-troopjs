@@ -2,6 +2,19 @@
 
 [TroopJS](https://github.com/troopjs/troopjs) application scaffolding generator for [Yeoman](http://yeoman.io).
 
+**Note:** Due to the fact that TroopJS is still under rapid development, this generator is to support only the latest release of each module.
+
+The following which are considered as the minimum amount of modules required for an web application, is required:
+
+ * troopjs-core
+ * troopjs-browser
+ * troopjs-jquery
+
+While if you're looking for more modules, simply search over bower registration for a list of them and install accordingly.
+
+```
+bower search troopjs-
+```
 
 ## Getting Started
 
