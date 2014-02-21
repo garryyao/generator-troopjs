@@ -33,10 +33,6 @@ require.config({
 			location: "bower_components/troopjs-browser"
 		},
 		{
-			name: "troopjs-data",
-			location: "bower_components/troopjs-data"
-		},
-		{
 			name: "troopjs-jquery",
 			location: "bower_components/troopjs-jquery"
 		},
@@ -62,9 +58,6 @@ require.config({
 		}
 	},
 	config: {
-		"troopjs-data/query/service": {
-			type: "post"
-		},
 		"troopjs-browser/loom/config": {
 			weave: "data-weave-2",
 			woven: "data-woven-2",
@@ -75,22 +68,10 @@ require.config({
 		require([
 			"jquery",
 			"troopjs-browser/application/widget",
-			"troopjs-data/ajax/service",
-			"troopjs-data/query/service",
-			"troopjs-data/cache/component",
-			"troopjs-data/cache/service",
 			"<%= APP_NAME_DASHED %>/widget/controller"
-		], function Bootstrap(jQuery, Application, AjaxService, QueryService, Cache, GC, AppController) {
+		], function Bootstrap(jQuery, Application, AppController) {
 			jQuery(function ready($) {
-				var cache = Cache();
-				GC(cache).start();
-				var ajax = AjaxService();
-				var query = QueryService(cache);
-
-				var $WINDOW = $(window);
-				var $HTML = $("html");
-
-				Application($HTML, "bootstrap", ajax, query, AppController($WINDOW)).start();
+				Application($("html"), "bootstrap", AppController($(window))).start();
 			});
 		});
 	}
