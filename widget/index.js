@@ -15,7 +15,7 @@ module.exports = Generator.extend({
       type: 'string'
     });
   },
-  addWidget: function app() {
+  widget: function app() {
     var cwd = this.destinationRoot();
 
     var appName = _.str.slugify(this.determineAppname());

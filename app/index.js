@@ -30,6 +30,11 @@ var BOWER_DEPS = {
     "when": "^3"
   }
 };
+var FORMAT_OPTIONS = {
+  indent_char: ' ',
+  indent_size: 2
+};
+
 
 module.exports = Generator.extend({
   constructor: function () {
@@ -40,25 +45,19 @@ module.exports = Generator.extend({
       defaults: false
     });
 
-    var format_options = {
-      indent_char: ' ',
-      indent_size: 2
-    };
-
     // create the application bootstrap file
     this.indexFile = function () {
-
       var me = this;
       var $ = cheerio.load(me.read('index.html'));
       // page title
       $('title').html(me.options['app-name']);
 
       // deploy scripts
-      $('#requirejs').removeAttr('id').attr('src', path.join(me.options['lib-dir'], 'requirejs/require.js'));
+      $('#requirejs').removeAttr('id').attr('src', path.join(me.options['bower-dir'], 'requirejs/require.js'));
       $('#bootstrap').removeAttr('id').attr('src', 'main.js');
 
       // reformat html
-      me.write('index.html', beautifier.html($.html(), format_options));
+      me.write('index.html', beautifier.html($.html(), FORMAT_OPTIONS));
     };
 
     this.mainFile = function () {
@@ -66,7 +65,7 @@ module.exports = Generator.extend({
       var done = me.async();
       requirejs.tools.useLib(function (require) {
         var contents = require('transform').modifyConfig(me.read('main.js'), function (config) {
-          config.baseUrl = me.options['lib-dir'];
+          config.baseUrl = me.options['bower-dir'];
           config.packages.push({
             name: _.str.slugify(me.options['app-name']),
             location: '..'
@@ -80,16 +79,16 @@ module.exports = Generator.extend({
           }
           return config;
         });
-        me.write('main.js', beautifier(contents, format_options));
+        me.write('main.js', beautifier(contents, FORMAT_OPTIONS));
         done();
       });
     };
 
     // initialize all other non-interactive options.
     var options = this.options;
-    options['lib-dir'] = JSON.parse(this.read('.bowerrc')).directory || 'bower_components';
+    options['bower-dir'] = JSON.parse(this.read('.bowerrc')).directory || 'bower_components';
   },
-  askFor: function askFor() {
+  prompts: function () {
     var done = this.async();
     // have Yeoman greet the user.
     this.log(this.yeoman);
@@ -117,7 +116,7 @@ module.exports = Generator.extend({
     me.write('bower.json', JSON.stringify(bower, null, 2));
     me.write('package.json', JSON.stringify(pkg, null, 2));
   },
-  copyFiles: function app() {
+  sources: function app() {
     this.copy('README.md');
     this.copy('.bowerrc');
     this.copy('.gitignore');
@@ -128,7 +127,7 @@ module.exports = Generator.extend({
   },
   grunt: function () {
     var gruntfile = new GruntEditor(this.read('Gruntfile.js'));
-    gruntfile.insertConfig('bowerDir', '"' + this.options['lib-dir']+ '"' );
+    gruntfile.insertConfig('bowerDir', '"' + this.options['bower-dir']+ '"' );
     this.write('Gruntfile.js', gruntfile.toString());
   },
   dependencies: function () {
