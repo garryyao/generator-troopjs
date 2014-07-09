@@ -1,10 +1,5 @@
 {
-	"name": "<%= APP_NAME_DASHED %>",
+	"name": "",
 	"version": "0.0.0",
-	"dependencies": {
-		"requirejs": "~2",
-		"troopjs-core": "*",
-		"troopjs-browser": "*",
-		"troopjs-jquery": "*"
-	}
+	"description": "application scaffolding by TroopJS yeoman generator"
 }

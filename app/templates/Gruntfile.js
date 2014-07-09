@@ -1,14 +1,22 @@
 /*global module:false*/
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
 	var path = require('path');
 	require("load-grunt-tasks")(grunt);
-	grunt.registerTask("default",
-		["clean:dist", "copy:dist", "requirejs-transformconfig:dist", "requirejs", "concat", "processhtml", "clean:after-dist"]);
-	grunt.registerTask("release", ["default", "clean:release", "copy:release"]);
+
+	grunt.registerTask("default", [
+		'clean',
+		'copy',
+		'requirejs-transformconfig',
+		'requirejs',
+		'useminPrepare',
+		'concat',
+		'uglify',
+		'usemin'
+	]);
 
 	function includeSource(patterns) {
-		return grunt.util._.map(grunt.file.expand(patterns), function(file) {
+		return grunt.util._.map(grunt.file.expand(patterns), function (file) {
 			return ['<%= pkg.name %>', file.replace(/\.js$/, '')].join('/');
 		});
 	}
@@ -16,35 +24,26 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		bowerDir: 'bower_components',
+		bowerDir: '',
 		clean: {
-			dist: "dist/",
-			"after-dist": ["dist/<%= bowerDir %>", "dist/main.js"],
-			release: "release/"
+			tmp: 'tmp',
+			dist: 'dist'
 		},
 		copy: {
 			dist: {
 				files: [
 					{
-						'dist/': ['widget/**/*', 'main.js']
-					},
-					{
-						'dist/': 'bower_components/**/*'
+						expand: true,
+						src: ['<%= bowerDir %>/**/*', 'main.js', '{widget,service}/**/*', '*.html'],
+						dest: 'tmp'
 					}
 				]
-			},
-			"release": {
-				files: {
-					"release/<%= pkg.version %>/": "dist/**/*"
-				}
 			}
 		},
 		"requirejs-transformconfig": {
 			options: {
 				// Some transformation goes here.
-				transform: function(config) {
-					// Remove all packages;
-					delete config.packages;
+				transform: function (config) {
 					return config;
 				}
 			},
@@ -59,24 +58,39 @@ module.exports = function(grunt) {
 		requirejs: {
 			dist: {
 				options: {
-					baseUrl: 'dist',
+					appDir: 'tmp',
+					baseUrl: '<%= bowerDir %>',
 					mainConfigFile: 'main.js',
-					out: "dist/nodeps.js",
-					include: includeSource(["widget/**/*.js", "main.js"]),
-					optimize: "none"
+					findNestedDependencies: true,
+					wrapShim: true,
+					skipDirOptimize: true,
+					skipModuleInsertion: true,
+					optimize: 'none',
+					optimizeCss: 'none',
+					dir: 'dist',
+					modules: [
+						{
+							name: '<%= pkg.name %>/main',
+							include: includeSource(['widget/**/*.js'])
+						}
+					]
 				}
 			}
 		},
-		concat: {
-			dist: {
-				src: ['bower_components/requirejs/require.js', 'dist/nodeps.js'],
-				dest: 'dist/nodeps.js'
+		// Reads HTML for usemin blocks to enable smart builds that automatically
+		// concat, minify and revision files. Creates configurations in memory so
+		// additional tasks can operate on them
+		useminPrepare: {
+			html: '*.html',
+			options: {
+				root: 'dist'
 			}
 		},
-		uglify: {
-			dist: {
-				src: [ , "dist/nodeps.js"],
-				dest: "dist/nodeps.min.js"
+		// Performs rewrites based on rev and the useminPrepare configuration
+		usemin: {
+			html: ['dist/*.html'],
+			options: {
+				assetsDirs: ['dist/']
 			}
 		},
 		processhtml: {

@@ -1,25 +1,21 @@
 /*
- * This file defines a Troop UI Widget which is woven into DOM.
- *
+ * This file defines a Troop UI Widget
  */
 define([
-	"troopjs-browser/component/widget",
-	"template!./main.html"
-], function (Widget, tHtml) {
-	"use strict";
+  "troopjs-dom/component/widget"
+], function (Widget) {
+  "use strict";
 
-	return Widget.extend({
-		// Handles the widget1 starting.
-		'sig/start': function initialize() {
-			return this.html(tHtml);
-		},
-
-		// Hub subscriber.
-		"hub/foo/bar": function (data) {
-		},
-
-		// Dom event handler.
-		"dom/.foo/click": function (evt) {
-		}
-	});
+  return Widget.extend({
+    // Handles widget starting
+    'sig/start': function initialize() {
+      return this.html('<h1>widget by TroopJS generator</h1>');
+    },
+    // Hub subscriber.
+    "hub/foo/bar": function (data) {
+    },
+    // Dom event handler.
+    "dom/click": function (evt) {
+    }
+  });
 });

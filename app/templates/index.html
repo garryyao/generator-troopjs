@@ -1,15 +1,12 @@
-<!doctype html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title><%= APP_NAME %></title>
-    <!-- CSS -->
-    <link rel="stylesheet/less" type="text/css" href="widget/initialization/main.css" media="all"/>
-    <!-- build:js:dist nodeps.js -->
-    <script data-main="main.js" src="bower_components/requirejs/require.js"></script>
-    <!-- /build -->
+   <meta charset="UTF-8">
+   <title></title>
+			<!-- build:js main.js -->
+			<script id="requirejs" src="require.js"></script>
+			<script id="bootstrap" src="main.js"></script>
+			<!-- endbuild -->
 </head>
 <body>
-<div data-weave-2="<%= APP_NAME_DASHED %>/widget/initialization/main"></div>
 </body>
 </html>

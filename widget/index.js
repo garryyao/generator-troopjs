@@ -1,25 +1,38 @@
 'use strict';
-var util = require('util');
-var yeoman = require('yeoman-generator');
+var path = require('path');
 var _ = require('underscore');
 _.str = require('underscore.string');
-_.date = require('underscore.date');
+var yeoman = require('yeoman-generator');
+var cheerio = require('cheerio');
+var Generator = yeoman.generators.Base;
+
+module.exports = Generator.extend({
+  constructor: function () {
+    Generator.apply(this, arguments);
+    this.argument('path', {
+      desc: 'path of the new widget',
+      required: true,
+      type: 'string'
+    });
+  },
+  addWidget: function app() {
+    var cwd = this.destinationRoot();
+
+    var appName = _.str.slugify(this.determineAppname());
+    var dir = path.join('widget', this['path']);
+    var module = path.join(appName, dir, 'main');
+    this.destinationRoot(dir);
+    this.directory('.');
+
+    this.destinationRoot(cwd);
+    this.sourceRoot(cwd);
+    var $ = cheerio.load(this.read('index.html'));
+
+    if(!$('[data-weave="' + module + '"]').length){
+      $('body').append($('<div>').attr('data-weave', module));
+      this.write('index.html', $.html());
+    }
+  }
+});
 
 
-var WidgetGenerator = module.exports = function WidgetGenerator(args, options, config) {
-
-	// By calling `NamedBase` here, we get the argument to the subgenerator call
-	// as `this.name`.
-	yeoman.generators.NamedBase.apply(this, arguments);
-	console.log('Generating TroopJS widget "%s"', this.name);
-};
-
-util.inherits(WidgetGenerator, yeoman.generators.NamedBase);
-
-WidgetGenerator.prototype.app = function files() {
-	// Create and work in a widget directory.
-	this.destinationRoot("widget/" + _.str.slugify(this.name));
-	this.copy('main.js');
-	this.copy('main.css');
-	this.copy('main.html');
-};
