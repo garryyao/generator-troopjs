@@ -24,9 +24,11 @@ module.exports = function (grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		tmpDir: 'tmp',
+		distDir: 'dist',
 		bowerDir: '',
 		clean: {
-			tmp: 'tmp',
+			tmp: '<%= tmpDir %>',
 			dist: 'dist'
 		},
 		copy: {
@@ -35,14 +37,13 @@ module.exports = function (grunt) {
 					{
 						expand: true,
 						src: ['<%= bowerDir %>/**/*', 'main.js', '{widget,service}/**/*', '*.html'],
-						dest: 'tmp'
+						dest: '<%= tmpDir %>'
 					}
 				]
 			}
 		},
 		"requirejs-transformconfig": {
 			options: {
-				// Some transformation goes here.
 				transform: function (config) {
 					return config;
 				}
@@ -50,7 +51,7 @@ module.exports = function (grunt) {
 			dist: {
 				files: [
 					{
-						'dist/main.js': 'main.js'
+						'<%= tmpDir %>/main.js': 'main.js'
 					}
 				]
 			}
@@ -58,16 +59,16 @@ module.exports = function (grunt) {
 		requirejs: {
 			dist: {
 				options: {
-					appDir: 'tmp',
+					appDir: '<%= tmpDir %>',
 					baseUrl: '<%= bowerDir %>',
-					mainConfigFile: 'main.js',
+					mainConfigFile: '<%= tmpDir %>/main.js',
 					findNestedDependencies: true,
 					wrapShim: true,
 					skipDirOptimize: true,
 					skipModuleInsertion: true,
 					optimize: 'none',
 					optimizeCss: 'none',
-					dir: 'dist',
+					dir: '<%= distDir %>',
 					modules: [
 						{
 							name: '<%= pkg.name %>/main',
@@ -81,16 +82,16 @@ module.exports = function (grunt) {
 		// concat, minify and revision files. Creates configurations in memory so
 		// additional tasks can operate on them
 		useminPrepare: {
-			html: '*.html',
+			html: '<%= distDir %>/*.html',
 			options: {
-				root: 'dist'
+				dest: '<%= distDir %>'
 			}
 		},
 		// Performs rewrites based on rev and the useminPrepare configuration
 		usemin: {
-			html: ['dist/*.html'],
+			html: ['<%= distDir %>/*.html'],
 			options: {
-				assetsDirs: ['dist/']
+				assetsDirs: ['<%= distDir %>']
 			}
 		},
 		processhtml: {
@@ -99,7 +100,7 @@ module.exports = function (grunt) {
 			},
 			dist: {
 				files: {
-					"dist/index.html": "index.html"
+					"<%= distDir %>/index.html": "<%= tmpDir %>/index.html"
 				}
 			}
 		}
