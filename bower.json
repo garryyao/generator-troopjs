@@ -1,0 +1,12 @@
+{
+  "name": "generator-troopjs",
+  "version": "0.1.1",
+  "description": "application scaffolding by TroopJS yeoman generator",
+  "dependencies": {
+    "jquery": "^2",
+    "poly": "^0",
+    "requirejs": "^2",
+    "troopjs": "troopjs#build/3.x",
+    "when": "^3"
+  }
+}
