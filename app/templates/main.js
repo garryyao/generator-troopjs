@@ -16,7 +16,7 @@ require.config({
 		}
 	],
 	deps: ['require', 'when/monitor/console'],
-	callback: function (require) {
+	callback: function bootstrap(require) {
 		require(['troopjs-dom/application/widget', 'jquery'], function (App, $) {
 			App($('html')).start();
 		});

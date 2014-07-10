@@ -69,6 +69,13 @@ module.exports = function (grunt) {
 					optimize: 'none',
 					optimizeCss: 'none',
 					dir: '<%= distDir %>',
+					onBuildWrite: function (moduleName, path, contents) {
+						// compensate the missing "troopjs/maxi" module definition when using the troopjs bundle
+						if (moduleName === 'troopjs/maxi' || moduleName === 'troopjs') {
+							contents += "\ndefine('troopjs/maxi',{});";
+						}
+						return contents;
+					},
 					modules: [
 						{
 							name: '<%= pkg.name %>/main',

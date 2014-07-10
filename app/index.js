@@ -9,6 +9,8 @@ var beautifier = require('js-beautify');
 var Generator = yeoman.generators.Base;
 var requirejs = require('requirejs/bin/r.js');
 var GruntEditor = require('gruntfile-editor');
+var program = require('ast-query');
+var esprima = require('esprima');
 
 var BOWER_DEPS = {
   "modular": {
@@ -63,21 +65,39 @@ module.exports = Generator.extend({
     this.mainFile = function () {
       var me = this;
       var done = me.async();
+
+      function addRequire(fn, module) {
+        var tree = program(fn);
+        var require = tree.callExpression('require');
+        var args = require['arguments'].nodes[0];
+        var modules = args[0].elements;
+        var str = esprima.parse('"' + module + '"').body[0].expression;
+        modules.splice(0, 0, str);
+
+        var params = args[1].params;
+        var ident = esprima.parse(module).body[0].expression;
+        params.splice(0, 0, ident);
+        return eval("(" + tree.toString() + ")");
+      }
+
       requirejs.tools.useLib(function (require) {
-        var contents = require('transform').modifyConfig(me.read('main.js'), function (config) {
-          config.baseUrl = me.options['bower-dir'];
-          config.packages.push({
-            name: _.str.slugify(me.options['app-name']),
-            location: '..'
-          });
-          if(!me.options['modular']){
+        var contents = require('transform').modifyConfig(me.read('main.js'),
+          function (config) {
+            config.baseUrl = me.options['bower-dir'];
             config.packages.push({
-              name: 'troopjs',
-              main: 'maxi.js'
+              name: _.str.slugify(me.options['app-name']),
+              location: '..'
             });
-            config.deps.push('troopjs');
-          }
-          return config;
+            if (!me.options['modular']) {
+              config.packages.push({
+                name: 'troopjs',
+                main: 'maxi.js'
+              });
+
+              // add one more require for troopjs bundle explicitly.
+              config.callback = addRequire(config.callback, 'troopjs');
+            }
+            return config;
         });
         me.write('main.js', beautifier(contents, FORMAT_OPTIONS));
         done();

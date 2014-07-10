@@ -32,7 +32,9 @@
     "htmltidy": "0.0.6",
     "js-beautify": "^1.5.1",
     "requirejs": "^2.1.14",
-    "gruntfile-editor": "^0.1.1"
+    "gruntfile-editor": "^0.1.1",
+    "ast-query": "^0.2.4",
+    "esprima": "^1.2.2"
   },
   "devDependencies": {
     "mocha": "~1.12.0"
